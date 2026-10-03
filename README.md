@@ -22,14 +22,14 @@ To recreate the development environment, you need the following software and/or 
 
 - VScode
 - Python 3.14
-- Pandas
+- Polars
 
 ## Useful Websites to Learn More
 
 I found these websites useful in developing this software:
 
-- [Website Title](Link)
--
+- [Kaggle](https://www.kaggle.com/datasets/joebeachcapital/restaurant-reviews)
+- [Polars_Cookbook](https://learning.oreilly.com/library/view/python-polars-the/9781098156077/ch07.html#id77)
 -
 
 ## Future Work

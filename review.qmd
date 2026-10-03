@@ -1,0 +1,61 @@
+
+```{python}
+import polars as pl
+import numpy as np
+from lets_plot import *
+
+LetsPlot.setup_html(isolated_frame=True)
+```
+
+
+```{python}
+# Data File
+df = pl.read_csv(
+    "Restaurant reviews.csv",
+    schema_overrides={"Rating": pl.Float64},
+)
+df.head()
+```
+
+
+```{python}
+# How many reviews were given at each rating? 
+# Number of reviews at each rating
+rating_counts = (
+    df.drop_nulls("Rating")
+      .group_by("Rating")
+      .agg(pl.len().alias("NumberOfReviews"))
+      .sort("Rating")
+)
+
+ggplot(rating_counts, aes(x="Rating", y="NumberOfReviews")) + \
+    geom_bar(stat="identity", fill="#1c317c") + \
+    labs(
+        title="Distribution of Restaurant Ratings",
+        x="Rating",
+        y="Number of Reviews",
+    )
+```
+
+```{python}
+# Most popular restaurants by number of reviews
+high_rated = (
+    df.filter(pl.col("Rating") >= 4)       # filter
+      .group_by("Restaurant")              # aggregation
+      .agg(pl.len().alias("HighRatingCount"))
+      .sort("HighRatingCount", descending=True)  # sort
+      .head(10)
+)
+
+```
+
+```{python}
+ggplot(high_rated, aes(x="Restaurant", y="HighRatingCount")) + \
+    geom_bar(stat="identity", fill="#F18F01") + \
+    coord_flip() + \
+    labs(
+        title="Top 10 Most Popular Restaurants",
+        x="Restaurant",
+        y="Number of Reviews",
+    )
+```
